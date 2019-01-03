@@ -1,25 +1,56 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import AppBar from './appBar/appBar';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { createMuiTheme } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import TreeMap from './dashboard/treemapCard';
+require('dotenv').config()
+
+
+
+
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
+  palette: {
+      primary: {
+          main: '#0b5994',
+      },
+      secondary: {
+          main: '#1d83c6',
+      },
+  },
+});
+
 
 class App extends Component {
+  
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      
+        <MuiThemeProvider theme={theme}>
+          <AppBar/>
+          
+          <Grid container={true} spacing={24} alignItems="center" justify="center" className="App-header">
+
+            <Grid item xs={12} sm={6}>
+              <TreeMap />
+            </Grid>
+            
+            <Grid item xs={12} sm={6}>
+              <Paper>xs=12 sm=6</Paper>
+            </Grid>
+          
+          </Grid>
+        
+         
+        
+        </MuiThemeProvider>
+        
       </div>
     );
   }
