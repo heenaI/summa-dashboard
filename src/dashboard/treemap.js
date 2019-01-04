@@ -78,27 +78,27 @@ class TreeMap extends React.Component {
                         {
                             id: 'de',
                             name: 'German',
-                            color: '#EC2500'
+                            color: '#377eb8'
                         },
                         {
                             id: 'en',
                             name: 'English',
-                            color: '#ECE100'
+                            color: '#4daf4a'
                         },
                         {
                             id: 'ru',
                             name: 'Russian',
-                            color: '#EC9800'
+                            color: '#984ea3'
                         },
                         {
                             id: 'ar',
                             name: 'Arabic',
-                            color: '#9EDE00'
+                            color: '#ff7f00'
                         },
                         {
                             id: 'es',
                             name: 'Spanish',
-                            color: '#FFA07A'
+                            color: '#ffff33'
                         }
                     ]
 
