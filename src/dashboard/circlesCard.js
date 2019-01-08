@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import TreeMap from './treemap';
+import CirclesChart from './circles';
 
 const styles = {
     card: {
@@ -30,8 +30,10 @@ function CirclesCard(props){
         <Card className={classes.card}>
             <CardContent>
                 <Typography className={classes.title} gutterBottom>
-                    Stories with Most Content
+                    Trending Entities - since last 24 hrs
                 </Typography>
+                
+                <CirclesChart/>
                 
 
             </CardContent>
@@ -39,7 +41,7 @@ function CirclesCard(props){
     );
 }
 
-TreemapCard.propTypes = {
+CirclesCard.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 

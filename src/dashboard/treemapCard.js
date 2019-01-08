@@ -30,7 +30,7 @@ function TreemapCard(props){
         <Card className={classes.card}>
             <CardContent>
                 <Typography className={classes.title} gutterBottom>
-                    Stories with Most Content
+                    Most Written about Stories
                 </Typography>
                 <TreeMap/>
 

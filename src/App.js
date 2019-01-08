@@ -6,6 +6,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import TreeMap from './dashboard/treemapCard';
+import CirclesCard from './dashboard/circlesCard';
 require('dotenv').config()
 
 
@@ -42,7 +43,7 @@ class App extends Component {
             </Grid>
             
             <Grid item xs={12} sm={6}>
-              <Paper>xs=12 sm=6</Paper>
+              <CirclesCard/>
             </Grid>
           
           </Grid>

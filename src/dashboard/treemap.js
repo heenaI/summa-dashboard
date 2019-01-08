@@ -122,7 +122,6 @@ class TreeMap extends React.Component {
                         });
                     }); 
                 });
-                console.log(Storylines)
                 this.setState(prevState => ({
                     DrillDown: [Storylines, ...prevState.DrillDown]
                 }))
