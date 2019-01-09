@@ -44,7 +44,7 @@ class CirclesChart extends React.Component {
                         }
                     },
                     minSize: 1,
-                    maxSize: 4
+                    maxSize: 5
                 }
             },
             series: this.state.series
@@ -61,9 +61,8 @@ class CirclesChart extends React.Component {
         const data  = new Object();
         data.name = 'people'
         data.data = new Array()
-       
-
-        axios.get(process.env.REACT_APP_SUMMA_ENTITIES + Time['twentyFourHrsAgo'])
+    
+        axios.get(process.env.REACT_APP_SUMMA_ENTITIES + '?sinceEpochTime=' + Time['twentyFourHrsAgo'])
         .then(res=>{
             
             let people = {
@@ -81,38 +80,57 @@ class CirclesChart extends React.Component {
             }
 
 
-            res.data['entities'].map(entity=>{
-                if(entity['relationshipCount']>=1)
+            res.data['entities']
+            .map((entity, index)=>{
+                if(entity['relationshipCount']>=1 || index<=4)
                 {
-                    let type = entity['type']
+                    const id = entity['id']
+                    const type = entity['type']
                     
-                    if(type==='people')
+                axios.get(process.env.REACT_APP_SUMMA_ENTITIES + '/' +id)
+                    .then(res=>{
+                        const mention = res.data['mentions'].length
+                        if(type==='people')
                     {
                         people.data.push({
                             name: entity.baseForm,
-                            value: entity.relationshipCount
+                            value: mention
                         });
                     }
                     if(type==='places')
                     {
                         places.data.push({
                             name: entity.baseForm,
-                            value: entity.relationshipCount
+                            value: mention
                         })
                     }
                     if(type==='organization')
                     {
                         organization.data.push({
                             name: entity.baseForm,
-                            value: entity.relationshipCount
+                            value: mention
                         })
                     }
+                        
+                        
+                    });
+                    
+                    
+                    
                     
                     
                 }
-            })
-            this.setState({series: [...this.state.series, people,places,organization]});
-            this.highChartsRender();
+            });
+            
+            
+            var self =this;
+            setTimeout(function(){
+                self.setState({series: [...self.state.series, people,places,organization]});
+                self.highChartsRender();
+
+            }, 500)
+            
+            
         });
     }
 
