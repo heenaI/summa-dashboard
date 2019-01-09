@@ -3,6 +3,7 @@ import Highcharts from 'highcharts';
 import Tree from 'highcharts/modules/treemap';
 import Drilldown from 'highcharts/modules/drilldown';
 import axios from 'axios';
+import moment from 'moment';
 
 Tree(Highcharts);
 Drilldown(Highcharts);
@@ -28,9 +29,6 @@ class TreeMap extends React.Component {
                 data: this.state.treemapData,
                 animationLimit: 500,
             }],
-            drilldown: {
-                series: this.state.DrillDown
-            },
             title: {
                 text: null
             }
@@ -39,99 +37,37 @@ class TreeMap extends React.Component {
     }
 
     componentDidMount() {
+        let Time =  {
+            monthAgo: moment().subtract(24, 'h').format("MM-DD-YYYY")
+        }
+        console.log(Time)
             axios.get(process.env.REACT_APP_SUMMA_STORY_API)
             .then(res => {
-              const data = res.data.filter(story => {
-                return story.itemCount >30;
+              const data = res.data
+              .filter(story => {
+                  const time = moment(story.latestItemTime).format("MM-DD-YYYY")
+                  return moment(time).isAfter(Time['monthAgo']) && story.itemCount>10;
               });
 
               const treemapData = data.map(story => {
                   return {
                       name: story.title,
                       value: story.itemCount,
-                      date: story.latestItemTime,
+                      date: moment(story.latestItemTime).format("MM-DD-YYYY"),
                       id: story.id, 
-                      level: 1,
-                      drilldown: story.id
+                      level: 1
                   }
               })
+              console.log(treemapData)
               
               this.setState({ treemapData })
+              this.highChartsRender();
               
 
-              const Storylines = treemapData.map(storyline => {
+              
                 
-                let Storylines = {
-                    type: 'treemap',
-                    layoutAlgorithm: 'squarified',
-                    id: storyline.drilldown,
-                    dataLabels: {
-                        enabled: true,
-                        align: 'left',
-                        verticalAlign: 'top',
-                        style: {
-                            fontSize: '15px',
-                            fontWeight: 'bold'
-                        }
-                    },
-                    data: [
-                        {
-                            id: 'de',
-                            name: 'German',
-                            color: '#377eb8'
-                        },
-                        {
-                            id: 'en',
-                            name: 'English',
-                            color: '#4daf4a'
-                        },
-                        {
-                            id: 'ru',
-                            name: 'Russian',
-                            color: '#984ea3'
-                        },
-                        {
-                            id: 'ar',
-                            name: 'Arabic',
-                            color: '#ff7f00'
-                        },
-                        {
-                            id: 'es',
-                            name: 'Spanish',
-                            color: '#ffff33'
-                        }
-                    ]
-
-                };
-
-                axios.get(process.env.REACT_APP_SUMMA_STORYLINES_API + storyline.id)
-                .then(res => {
-                    
-
-                     Object.keys(res.data.newsItems).forEach((key, index)=>{
-                        
-                        let o = res.data.newsItems[key]
-                       
-                        Storylines.data.push({
-                            parent: o.contentDetectedLangCode,
-                            id: o.id,
-                            name: o.title,
-                            level: 2,
-                            value: 10
-
-                        });
-                    }); 
-                });
-                this.setState(prevState => ({
-                    DrillDown: [Storylines, ...prevState.DrillDown]
-                }))
-                this.highChartsRender();
-                
-                return Storylines 
-
-              });
-              
-              
+               
+  
             });
 
             
