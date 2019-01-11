@@ -49,18 +49,6 @@ class TreeMap extends React.Component {
                   const time = moment(story.latestItemTime).format("MM-DD-YYYY")
                   return moment(time).isAfter(Time['monthAgo']) && story.itemCount<=50 && story.itemCount>20;
               });
-              const filtered = data.filter(story=>{
-                for( var i in filter)
-                {
-                    if(story.title!==filter)
-                    {
-                        return true
-                    }
-                    return false
-                }
-                });
-              console.group(data)
-              console.log(filtered)
             
 
               const treemapData = data.map(story => {
